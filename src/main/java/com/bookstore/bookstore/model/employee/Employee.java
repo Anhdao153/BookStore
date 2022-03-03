@@ -1,7 +1,6 @@
-package com.bookstore.bookstore.model.customer;
+package com.bookstore.bookstore.model.employee;
 
 import com.bookstore.bookstore.config.CustomId;
-import com.bookstore.bookstore.model.order.Order;
 import com.bookstore.bookstore.model.user.AppUser;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -9,20 +8,19 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.util.List;
 
-@Entity(name = "customers")
-@SQLDelete(sql = "UPDATE customers SET deleted = true WHERE id=?")
+@Entity(name = "employees")
+@SQLDelete(sql = "UPDATE employees SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
-public class Customer {
+public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customers_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employees_seq")
     @GenericGenerator(
-            name = "customers_seq",
+            name = "employees_seq",
             strategy = "com.bookstore.bookstore.config.CustomId",
             parameters = {
                     @Parameter(name = CustomId.INCREMENT_PARAM, value = "1"),
-                    @Parameter(name = CustomId.VALUE_PREFIX_PARAMETER, value = "KH-"),
+                    @Parameter(name = CustomId.VALUE_PREFIX_PARAMETER, value = "EM-"),
                     @Parameter(name = CustomId.NUMBER_FORMAT_PARAMETER, value = "%04d")})
     private String id;
     private String name;
@@ -32,16 +30,13 @@ public class Customer {
     private String email;
     @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.ALL)
     private AppUser appUser;
-    @OneToMany(mappedBy = "customer")
-    private List<Order> orderList;
     private Boolean deleted = Boolean.FALSE;
 
-
-    public Customer() {
+    public Employee() {
     }
 
-    public Customer(String id, String name, int age, String address, int phoneNumber, String email, AppUser appUser,
-                    List<Order> orderList, Boolean deleted) {
+    public Employee(String id, String name, int age, String address, int phoneNumber, String email, AppUser appUser,
+                    Boolean deleted) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -49,16 +44,7 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.appUser = appUser;
-        this.orderList = orderList;
         this.deleted = deleted;
-    }
-
-    public List<Order> getOrderList() {
-        return orderList;
-    }
-
-    public void setOrderList(List<Order> orderList) {
-        this.orderList = orderList;
     }
 
     public String getId() {
@@ -124,11 +110,11 @@ public class Customer {
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
     }
-    // TODO: 02/03/2022 by thiện nhỏ
+    // TODO: 03/03/2022
 
     @Override
     public String toString() {
-        return "Customer{" +
+        return "Employee{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", age=" + age +
@@ -140,4 +126,3 @@ public class Customer {
                 '}';
     }
 }
-
