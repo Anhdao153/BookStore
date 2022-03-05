@@ -3,6 +3,7 @@ package com.bookstore.bookstore.model.customer;
 import com.bookstore.bookstore.config.CustomId;
 import com.bookstore.bookstore.model.order.Order;
 import com.bookstore.bookstore.model.user.AppUser;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.SQLDelete;
@@ -32,7 +33,8 @@ public class Customer {
     private String email;
     @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.ALL)
     private AppUser appUser;
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer",fetch = FetchType.EAGER)
+    @JsonBackReference
     private List<Order> orderList;
     private Boolean deleted = Boolean.FALSE;
 

@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface ICustomerService {
     Optional<Customer> findCustomerById(String id);
     Customer saveCustomer(CustomerDTO customerDTO);
-    Page<Customer> getListCustomer(String id, String email, int age, String address, String orderId, int phoneNumber);
+    Page<Customer> getListCustomer(int page, int size,String id, String email, int age, String address, String orderId, int phoneNumber,
+                                   String sortField, String sortDirection);
 }

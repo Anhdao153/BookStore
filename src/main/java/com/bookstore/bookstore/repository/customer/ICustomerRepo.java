@@ -11,15 +11,19 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ICustomerRepo extends JpaRepository<Customer,String> {
 
-    @Query(value="SELECT * from customers where id like concat('%',:customersId,'%')" +
-            " and email like concat('%',:email,'%') " +
+    @Query(value="SELECT * from customers " +
+            "join `order` on customer.id = `order`.customer_id " +
+            "where id like concat('%',:id,'%')" +
+            "and email like concat('%',:email,'%') " +
             "and age like concat('%',:age,'%')" +
             "and address like concat('%',:address,'%')" +
-            "and phoneNumber like concat('%',phoneNumber,'%') and order_id like concat('%',order_id,'%') ", nativeQuery = true)
-    Page<Customer> getListCustomer(@Param("customerId")String customerId,
+            "and phone_number like concat('%',:phone_number,'%')" +
+            "and order_id like concat('%',:order_id,'%')", nativeQuery = true)
+    Page<Customer> getListCustomer(@Param("id")String id,
                                    @Param("email")String email,
                                    @Param("age")int age,
                                    @Param("address")String address ,
+                                   @Param("phone_number")int phoneNumber,
                                    @Param("order_id")String order_id ,
-                                   @Param("phoneNumber")int phoneNumber, Pageable pageable);
+                                   Pageable pageable);
 }
