@@ -8,22 +8,29 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface ICustomerRepo extends JpaRepository<Customer,String> {
+import java.util.Optional;
 
-    @Query(value="SELECT * from customers " +
-            "join `order` on customer.id = `order`.customer_id " +
+@Repository
+public interface ICustomerRepo extends JpaRepository<Customer, String> {
+
+    @Query(value = "SELECT * from customers " +
+            "join `orders` on customers.id = `orders`.customer_id " +
             "where id like concat('%',:id,'%')" +
             "and email like concat('%',:email,'%') " +
             "and age like concat('%',:age,'%')" +
             "and address like concat('%',:address,'%')" +
             "and phone_number like concat('%',:phone_number,'%')" +
-            "and order_id like concat('%',:order_id,'%')", nativeQuery = true)
-    Page<Customer> getListCustomer(@Param("id")String id,
-                                   @Param("email")String email,
-                                   @Param("age")int age,
-                                   @Param("address")String address ,
-                                   @Param("phone_number")int phoneNumber,
-                                   @Param("order_id")String order_id ,
+            "and `orders`.id like concat('%',:order_id,'%')", nativeQuery = true)
+    Page<Customer> getListCustomer(@Param("id") String id,
+                                   @Param("email") String email,
+                                   @Param("age") int age,
+                                   @Param("address") String address,
+                                   @Param("phone_number") int phoneNumber,
+                                   @Param("order_id") String order_id,
                                    Pageable pageable);
+
+    @Query(value = "SELECT * from customers " +
+            "join `orders` on customers.id=`orders`.customer_id \n " +
+            "join app_users on app_users.id=customers.app_user_id where customers.id= :id ", nativeQuery = true)
+    Optional<Customer> findCustomerById(@Param("id") String id);
 }

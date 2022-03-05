@@ -24,6 +24,7 @@ public class CustomerController {
     @GetMapping("/id")
     public ResponseEntity<Optional<Customer>> findCustomerById(@RequestParam("id") String id) {
         Optional<Customer> customer = iCustomerService.findCustomerById(id);
+
         if (!iCustomerService.findCustomerById(id).isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

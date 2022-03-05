@@ -20,7 +20,8 @@ public class CustomerServiceImpl implements ICustomerService {
 
     @Override
     public Optional<Customer> findCustomerById(String id) {
-        return iCustomerRepo.findById(id);
+
+        return iCustomerRepo.findCustomerById(id);
     }
 
     @Override
