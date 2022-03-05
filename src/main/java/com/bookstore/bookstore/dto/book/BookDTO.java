@@ -1,59 +1,47 @@
-package com.bookstore.bookstore.model.book;
+package com.bookstore.bookstore.dto.book;
 
-import com.bookstore.bookstore.config.CustomId;
 import com.bookstore.bookstore.model.orderDetail.OrderDetail;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
-
-import javax.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity(name= "books")
-@SQLDelete(sql = "UPDATE individuals SET deleted = true WHERE id=?")
-@Where(clause = "deleted=false")
-public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "books_seq")
-    @GenericGenerator(
-            name = "books_seq",
-            strategy = "com.bookstore.bookstore.config.CustomId",
-            parameters = {
-                    @Parameter(name = CustomId.INCREMENT_PARAM, value = "1"),
-                    @Parameter(name = CustomId.VALUE_PREFIX_PARAMETER, value = "BS-"),
-                    @Parameter(name = CustomId.NUMBER_FORMAT_PARAMETER, value = "%04d")})
-    private String id;
-    private String author;
-    private String name;
-    @Column(name = "publication", columnDefinition = "DATE")
-    private LocalDate publication;
-    private String publishing_company;
-    private String translator;
-    private int quantity;
-    private double price;
-    @OneToMany(mappedBy = "book")
-    @JsonBackReference
-    private List<OrderDetail> orderDetail;
-    private Boolean deleted = Boolean.FALSE;
+public class BookDTO implements Validator {
 
-    public Book() {
+    String id;
+    @NotNull(message="Tên sách không được để trống")
+    private String name;
+    @NotNull(message = "Tác giả không được để trống")
+    private String author;
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private LocalDate publication;
+    @NotNull
+    private String publishing_company;
+    @NotNull
+    private String translator;
+    @Min(1)
+    private int quantity;
+    @NotNull
+    private double price;
+    private List<OrderDetail> orderDetail;
+
+    public BookDTO() {
     }
 
-    public Book(String id, String author, String name, LocalDate publication, String publishing_company, String translator,
-                int quantity, double price, List<OrderDetail> orderDetail, Boolean deleted) {
+    public BookDTO(String id, String name, String author, LocalDate publication, String publishing_company,
+                   String translator, int quantity, double price, List<OrderDetail> orderDetail) {
         this.id = id;
-        this.author = author;
         this.name = name;
+        this.author = author;
         this.publication = publication;
         this.publishing_company = publishing_company;
         this.translator = translator;
         this.quantity = quantity;
         this.price = price;
         this.orderDetail = orderDetail;
-        this.deleted = deleted;
     }
 
     public String getId() {
@@ -64,20 +52,20 @@ public class Book {
         this.id = id;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public LocalDate getPublication() {
@@ -128,20 +116,22 @@ public class Book {
         this.orderDetail = orderDetail;
     }
 
-    public Boolean getDeleted() {
-        return deleted;
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return false;
     }
 
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
+    @Override
+    public void validate(Object target, Errors errors) {
+
     }
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "BookDTO{" +
                 "id='" + id + '\'' +
-                ", author='" + author + '\'' +
                 ", name='" + name + '\'' +
+                ", author='" + author + '\'' +
                 ", publication=" + publication +
                 ", publishing_company='" + publishing_company + '\'' +
                 ", translator='" + translator + '\'' +
