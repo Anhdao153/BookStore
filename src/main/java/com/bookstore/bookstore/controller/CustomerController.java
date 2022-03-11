@@ -1,10 +1,12 @@
 package com.bookstore.bookstore.controller;
 
+import com.bookstore.bookstore.dto.customer.ICustomerDTO;
 import com.bookstore.bookstore.model.customer.Customer;
 import com.bookstore.bookstore.service.customer.ICustomerService;
 import jdk.nashorn.internal.runtime.options.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -22,10 +25,9 @@ public class CustomerController {
     ICustomerService iCustomerService;
 
     @GetMapping("/id")
-    public ResponseEntity<Optional<Customer>> findCustomerById(@RequestParam("id") String id) {
-        Optional<Customer> customer = iCustomerService.findCustomerById(id);
-
-        if (!iCustomerService.findCustomerById(id).isPresent()) {
+    public ResponseEntity<Object> findCustomerById(@RequestParam("id") String id) {
+        List<ICustomerDTO> customer = iCustomerService.findCustomerById(id);
+        if (!iCustomerService.findCustomerById(id).isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(customer, HttpStatus.OK);
@@ -42,8 +44,11 @@ public class CustomerController {
                                                   @RequestParam(defaultValue = "")int phoneNumber,
                                                   @RequestParam(defaultValue = "")String orderId) {
         int size = 10;
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        Page<Customer> customersPage= iCustomerService.getListCustomer(page,size,id,email,age,address,orderId,phoneNumber,sortField,sortDirection);
+       if (customersPage.isEmpty()){
+           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+       }
+        return new ResponseEntity<>(customersPage,HttpStatus.OK);
 
     }
 }

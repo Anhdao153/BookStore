@@ -1,6 +1,7 @@
 package com.bookstore.bookstore.service.customer.Impl;
 
 import com.bookstore.bookstore.dto.customer.CustomerDTO;
+import com.bookstore.bookstore.dto.customer.ICustomerDTO;
 import com.bookstore.bookstore.model.customer.Customer;
 import com.bookstore.bookstore.repository.customer.ICustomerRepo;
 import com.bookstore.bookstore.service.customer.ICustomerService;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class CustomerServiceImpl implements ICustomerService {
@@ -19,8 +21,7 @@ public class CustomerServiceImpl implements ICustomerService {
     ICustomerRepo iCustomerRepo;
 
     @Override
-    public Optional<Customer> findCustomerById(String id) {
-
+    public List<ICustomerDTO> findCustomerById(String id) {
         return iCustomerRepo.findCustomerById(id);
     }
 

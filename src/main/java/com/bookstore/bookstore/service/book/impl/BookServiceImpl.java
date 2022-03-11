@@ -32,4 +32,9 @@ public class BookServiceImpl implements IBookService {
     public List<Book> searchBook(String keyword, Integer page) {
         return iBookRepo.findAllBook(keyword,page*5);
     }
+
+    @Override
+    public void deleted(String id) {
+        iBookRepo.DeleteBookById(id);
+    }
 }

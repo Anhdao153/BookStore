@@ -11,4 +11,6 @@ public interface IBookService {
     Book save (BookDTO bookDTO);
 
     List<Book> searchBook(String keyword, Integer page);
+
+    void deleted(String id);
 }

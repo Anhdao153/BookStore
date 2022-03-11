@@ -25,6 +25,7 @@ public class Employee {
     private String id;
     private String name;
     private int age;
+    private String dayOfBirth;
     private String address;
     private int phoneNumber;
     private String email;
@@ -35,16 +36,24 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String id, String name, int age, String address, int phoneNumber, String email, AppUser appUser,
-                    Boolean deleted) {
+    public Employee(String id, String name, int age, String dayOfBirth, String address, int phoneNumber, String email, AppUser appUser, Boolean deleted) {
         this.id = id;
         this.name = name;
         this.age = age;
+        this.dayOfBirth = dayOfBirth;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.appUser = appUser;
         this.deleted = deleted;
+    }
+
+    public String getDayOfBirth() {
+        return dayOfBirth;
+    }
+
+    public void setDayOfBirth(String dayOfBirth) {
+        this.dayOfBirth = dayOfBirth;
     }
 
     public String getId() {

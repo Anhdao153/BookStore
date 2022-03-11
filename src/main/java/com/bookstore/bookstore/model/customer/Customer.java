@@ -33,7 +33,8 @@ public class Customer {
     private String email;
     @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.ALL)
     private AppUser appUser;
-    @OneToMany(mappedBy = "customer",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "customer")
+//    ,fetch = FetchType.EAGER   //xài vào thì bị lỗi, k xài thì k bị lỗi
     @JsonBackReference
     private List<Order> orderList;
     private Boolean deleted = Boolean.FALSE;
@@ -142,4 +143,3 @@ public class Customer {
                 '}';
     }
 }
-
