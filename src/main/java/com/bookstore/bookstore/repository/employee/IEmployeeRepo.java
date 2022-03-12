@@ -26,8 +26,8 @@ public interface IEmployeeRepo extends JpaRepository<Employee, String> {
                                    @Param("email") String email,
                                    @Param("address") String address,
                                    @Param("dayOfBirth") String dayOfBirth,
-                                   @Param("age") String age,
-                                   @Param("phoneNumber") String phoneNumber,
+                                   @Param("age") int age,
+                                   @Param("phoneNumber") int phoneNumber,
                                    Pageable pageable
                                    );
     @Modifying

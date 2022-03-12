@@ -7,6 +7,9 @@ import com.bookstore.bookstore.service.employee.IEmployeeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,8 +27,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
     @Override
     public Employee saveEmployee(EmployeeDTO employeeDTO) {
-        Employee employee=new Employee();
-        BeanUtils.copyProperties(employeeDTO,employee);
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
         return iEmployeeRepo.save(employee);
     }
 
@@ -36,10 +39,12 @@ public class EmployeeServiceImpl implements IEmployeeService {
     }
 
     @Override
-    public Page<Employee> getListEmployee(int page, int size, int phone, int age, String id, String email, String dateOfBirth, String address, String name, String sortField, String sortDirection) {
-        size =5;
-
-
-        return null;
+    public Page<Employee> getListEmployee(int page, int size, int phone, int age, String id, String email,
+                                          String dateOfBirth, String address, String name, String sortField,
+                                          String sortDirection) {
+        size = 5;
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField) : Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return iEmployeeRepo.getListEmployee(id, name, email, address, dateOfBirth, age, phone, pageable);
     }
 }
