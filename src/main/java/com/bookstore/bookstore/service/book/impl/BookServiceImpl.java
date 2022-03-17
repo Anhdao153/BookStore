@@ -30,7 +30,7 @@ public class BookServiceImpl implements IBookService {
 
     @Override
     public List<Book> searchBook(String keyword, Integer page) {
-        return iBookRepo.findAllBook(keyword,page*5);
+        return iBookRepo.findAllBook("%"+keyword+"%",page*9);
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,14 +20,17 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/book")
+//@CrossOrigin(value = "http://localhost:4200")
+@CrossOrigin(value ="http://localhost:4200/", allowCredentials = "true")
 public class BookController {
+
     @Autowired
     private IBookService iBookService;
 
     @GetMapping("/search")
-    public ResponseEntity<Page<Book>> search(@RequestParam("q") String keyword,
+        public ResponseEntity<Page<Book>> search(@RequestParam("keyWord") String keyword,
                                              @RequestParam(name = "page", defaultValue = "0") Integer page) {
-        Pageable pageable = PageRequest.of(page, 5);
+        Pageable pageable = PageRequest.of(page, 6);
         List<Book> bookPageable = iBookService.searchBook(keyword, page);
 
         Page<Book> books = new PageImpl<>(bookPageable, pageable, bookPageable.size());

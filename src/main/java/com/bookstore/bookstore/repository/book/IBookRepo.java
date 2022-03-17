@@ -7,15 +7,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface IBookRepo extends JpaRepository<Book, String> {
+//lỗi fulltext thì nhớ vào trong mysql rồi viết câu lệnh này trong bảng table
+//ALTER TABLE `book_store`.`books`
+//    ADD FULLTEXT INDEX `Search` (`author`, `name`, `publishing_company`, `translator`) VISIBLE;
+//;
 
-    @Query(value = "select * from books where match ( author,`name`, publishing_company,translator) AGAINST(?1) limit ?2,5 and deleted=0",
+    @Query(value = "select * from books where books.deleted=0 and concat ( author,`name`, publishing_company,translator) like ?1 limit ?2,9",
             nativeQuery = true)
     List<Book> findAllBook(String keyword, Integer page);
 
