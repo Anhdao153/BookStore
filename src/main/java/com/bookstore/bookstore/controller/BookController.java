@@ -30,7 +30,7 @@ public class BookController {
     @GetMapping("/search")
         public ResponseEntity<Page<Book>> search(@RequestParam("keyWord") String keyword,
                                              @RequestParam(name = "page", defaultValue = "0") Integer page) {
-        Pageable pageable = PageRequest.of(page, 6);
+        Pageable pageable = PageRequest.of(page, 9);
         List<Book> bookPageable = iBookService.searchBook(keyword, page);
 
         Page<Book> books = new PageImpl<>(bookPageable, pageable, bookPageable.size());
