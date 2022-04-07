@@ -2,6 +2,7 @@ package com.bookstore.bookstore.model.employee;
 
 import com.bookstore.bookstore.config.CustomId;
 import com.bookstore.bookstore.model.user.AppUser;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.SQLDelete;
@@ -29,7 +30,7 @@ public class Employee {
     private String address;
     private int phoneNumber;
     private String email;
-    @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.PERSIST)
     private AppUser appUser;
     private Boolean deleted = Boolean.FALSE;
 

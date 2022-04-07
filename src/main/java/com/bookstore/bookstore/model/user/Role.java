@@ -10,7 +10,7 @@ public class Role {
     private Long id;
     private String name;
     @ManyToMany(mappedBy = "roles")
-    private Set<AppUser> appUser;
+    private Set<AppUser> appUsers;
 
     public Role() {
     }
@@ -32,11 +32,11 @@ public class Role {
     }
 
     public Set<AppUser> getAppUser() {
-        return appUser;
+        return appUsers;
     }
 
     public void setAppUser(Set<AppUser> appUser) {
-        this.appUser = appUser;
+        this.appUsers = appUser;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class Role {
         return "Role{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", appUser=" + appUser +
+                ", appUser=" + appUsers +
                 '}';
     }
 }

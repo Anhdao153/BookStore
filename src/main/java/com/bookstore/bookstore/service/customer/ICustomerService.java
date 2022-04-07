@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ICustomerService {
-    List<ICustomerDTO> findCustomerById(String id);
+    Optional<Customer> findCustomerById(String id);
     Customer saveCustomer(CustomerDTO customerDTO);
     Page<Customer> getListCustomer(int page, int size,String id, String email, int age, String address, String orderId, int phoneNumber,
                                    String sortField, String sortDirection);

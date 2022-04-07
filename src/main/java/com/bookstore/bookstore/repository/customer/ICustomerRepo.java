@@ -32,9 +32,9 @@ public interface ICustomerRepo extends JpaRepository<Customer, String> {
                                    @Param("order_id") String order_id,
                                    Pageable pageable);
 
-    @Query(value = "select c.id customerId, o.id orderId from customers c " +
-            "join orders o on c.id = o.customer_id " +
-            "join app_users au on au.id = c.app_user_id  where c.id=?1",nativeQuery = true)
-    List<ICustomerDTO> findCustomerById(String id);
+//    @Query(value = "select c.id customerId, o.id orderId from customers c " +
+//            "join orders o on c.id = o.customer_id " +
+//            "join app_users au on au.id = c.app_user_id  where c.id=?1",nativeQuery = true)
+//    List<ICustomerDTO> findCustomerById(String id);
 
 }

@@ -21,8 +21,8 @@ public class CustomerServiceImpl implements ICustomerService {
     ICustomerRepo iCustomerRepo;
 
     @Override
-    public List<ICustomerDTO> findCustomerById(String id) {
-        return iCustomerRepo.findCustomerById(id);
+    public Optional<Customer> findCustomerById(String id) {
+        return iCustomerRepo.findById(id);
     }
 
     @Override
