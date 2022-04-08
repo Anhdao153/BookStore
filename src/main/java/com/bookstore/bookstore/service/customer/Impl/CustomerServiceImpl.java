@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class CustomerServiceImpl implements ICustomerService {
     @Autowired
@@ -32,10 +33,14 @@ public class CustomerServiceImpl implements ICustomerService {
         return iCustomerRepo.save(customer);
     }
 
+
     @Override
-    public Page<Customer> getListCustomer(int page, int size, String id, String email, int age, String address, String orderId, int phoneNumber,String sortField, String sortDirection) {
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
-        Pageable pageable= PageRequest.of(page,size,sort);
-        return iCustomerRepo.getListCustomer(id,email,age,address,phoneNumber,orderId,pageable);
+    public Page<Customer> showListCustomer(String keyWord, Pageable pageable) {
+        return iCustomerRepo.showListCustomer("%" + keyWord + "%", pageable);
+    }
+
+    @Override
+    public void deletedCustomer(String id) {
+        iCustomerRepo.deleteCustomerById(id);
     }
 }

@@ -19,7 +19,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
     @Override
     public Optional<Employee> findEmployeeById(String id) {
-        return iEmployeeRepo.findEmployeeById(id);
+        return iEmployeeRepo.findById(id);
     }
 
     @Override

@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -41,7 +42,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Employee> saveEmployee(EmployeeDTO employeeDTO, BindingResult bindingResult) {
+    public ResponseEntity<Employee> saveEmployee(@RequestBody @Valid EmployeeDTO employeeDTO, BindingResult bindingResult) {
         new EmployeeDTO().validate(employeeDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -51,7 +52,7 @@ public class EmployeeController {
     }
 
     @PatchMapping("/edit")
-    public ResponseEntity<Object> editEmployee(EmployeeDTO employeeDTO, BindingResult bindingResult) {
+    public ResponseEntity<Object> editEmployee(@RequestBody @Valid EmployeeDTO employeeDTO, BindingResult bindingResult) {
         new EmployeeDTO().validate(employeeDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             String mes = "Lỗi nhập ngu";
@@ -66,7 +67,6 @@ public class EmployeeController {
         if (!iEmployeeService.findEmployeeById(id).isPresent()){
             String mes= "Thứ mày muốn xóa không tồn tại";
             return new ResponseEntity<>(mes, HttpStatus.BAD_REQUEST);
-
         }
         iEmployeeService.deletedEmployee(id);
         String mes= "Đã xóa khởi dữ liệu";

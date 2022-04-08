@@ -99,6 +99,19 @@ public class EmployeeDTO implements Validator {
     }
 
     @Override
+    public String toString() {
+        return "EmployeeDTO{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", address='" + address + '\'' +
+                ", phoneNumber=" + phoneNumber +
+                ", email='" + email + '\'' +
+                ", dayOfBirth='" + dayOfBirth + '\'' +
+                '}';
+    }
+
+    @Override
     public boolean supports(Class<?> clazz) {
         return false;
     }

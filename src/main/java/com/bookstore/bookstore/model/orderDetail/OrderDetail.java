@@ -20,7 +20,9 @@ public class OrderDetail {
     @ManyToOne(targetEntity = Book.class)
     private Book book;
     @ManyToOne(targetEntity = Order.class)
+    @JsonBackReference
     private Order order;
+
 
     public OrderDetail() {
     }
