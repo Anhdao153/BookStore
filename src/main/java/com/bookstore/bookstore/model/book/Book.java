@@ -33,6 +33,7 @@ public class Book {
     private String publishing_company;
     private String translator;
     private int quantity;
+    private String url;
     private double price;
     @OneToMany(mappedBy = "book")
     @JsonBackReference
@@ -42,8 +43,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(String id, String author, String name, LocalDate publication, String publishing_company, String translator,
-                int quantity, double price, List<OrderDetail> orderDetail, Boolean deleted) {
+    public Book(String id, String author, String name, LocalDate publication, String publishing_company, String translator, int quantity, String url, double price, List<OrderDetail> orderDetail, Boolean deleted) {
         this.id = id;
         this.author = author;
         this.name = name;
@@ -51,9 +51,18 @@ public class Book {
         this.publishing_company = publishing_company;
         this.translator = translator;
         this.quantity = quantity;
+        this.url = url;
         this.price = price;
         this.orderDetail = orderDetail;
         this.deleted = deleted;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getId() {
@@ -146,8 +155,10 @@ public class Book {
                 ", publishing_company='" + publishing_company + '\'' +
                 ", translator='" + translator + '\'' +
                 ", quantity=" + quantity +
+                ", url='" + url + '\'' +
                 ", price=" + price +
                 ", orderDetail=" + orderDetail +
+                ", deleted=" + deleted +
                 '}';
     }
 }

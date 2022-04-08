@@ -25,13 +25,21 @@ public class Order {
                     @Parameter(name = CustomId.VALUE_PREFIX_PARAMETER, value = "OR-"),
                     @Parameter(name = CustomId.NUMBER_FORMAT_PARAMETER, value = "%04d")})
     private String id;
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     private List<OrderDetail> orderDetail;
 
     @ManyToOne(targetEntity = Customer.class)
     private Customer customer;
+    private Boolean deleted = Boolean.FALSE;
 
     public Order() {
+    }
+
+    public Order(String id, List<OrderDetail> orderDetail, Customer customer, Boolean deleted) {
+        this.id = id;
+        this.orderDetail = orderDetail;
+        this.customer = customer;
+        this.deleted = deleted;
     }
 
     public String getId() {
@@ -56,6 +64,14 @@ public class Order {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 }
 

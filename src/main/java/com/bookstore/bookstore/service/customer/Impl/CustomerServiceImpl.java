@@ -1,6 +1,7 @@
 package com.bookstore.bookstore.service.customer.Impl;
 
 import com.bookstore.bookstore.dto.customer.CustomerDTO;
+import com.bookstore.bookstore.dto.customer.ICustomerDTO;
 import com.bookstore.bookstore.model.customer.Customer;
 import com.bookstore.bookstore.repository.customer.ICustomerRepo;
 import com.bookstore.bookstore.service.customer.ICustomerService;
@@ -12,7 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+
 @Service
 public class CustomerServiceImpl implements ICustomerService {
     @Autowired
@@ -20,8 +23,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
     @Override
     public Optional<Customer> findCustomerById(String id) {
-
-        return iCustomerRepo.findCustomerById(id);
+        return iCustomerRepo.findById(id);
     }
 
     @Override
@@ -31,10 +33,14 @@ public class CustomerServiceImpl implements ICustomerService {
         return iCustomerRepo.save(customer);
     }
 
+
     @Override
-    public Page<Customer> getListCustomer(int page, int size, String id, String email, int age, String address, String orderId, int phoneNumber,String sortField, String sortDirection) {
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
-        Pageable pageable= PageRequest.of(page,size,sort);
-        return iCustomerRepo.getListCustomer(id,email,age,address,phoneNumber,orderId,pageable);
+    public Page<Customer> showListCustomer(String keyWord, Pageable pageable) {
+        return iCustomerRepo.showListCustomer("%" + keyWord + "%", pageable);
+    }
+
+    @Override
+    public void deletedCustomer(String id) {
+        iCustomerRepo.deleteCustomerById(id);
     }
 }

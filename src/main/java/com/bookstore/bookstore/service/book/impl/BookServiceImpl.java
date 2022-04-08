@@ -6,6 +6,8 @@ import com.bookstore.bookstore.repository.book.IBookRepo;
 import com.bookstore.bookstore.service.book.IBookService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +31,12 @@ public class BookServiceImpl implements IBookService {
     }
 
     @Override
-    public List<Book> searchBook(String keyword, Integer page) {
-        return iBookRepo.findAllBook(keyword,page*5);
+    public Page<Book> searchBookWithPage(String keyword, Pageable page) {
+        return iBookRepo.findAllBookWithPage("%"+keyword+"%", page);
+    }
+
+    @Override
+    public void deleted(String id) {
+        iBookRepo.DeleteBookById(id);
     }
 }

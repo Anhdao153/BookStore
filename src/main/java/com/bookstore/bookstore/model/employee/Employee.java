@@ -2,6 +2,7 @@ package com.bookstore.bookstore.model.employee;
 
 import com.bookstore.bookstore.config.CustomId;
 import com.bookstore.bookstore.model.user.AppUser;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.SQLDelete;
@@ -25,26 +26,35 @@ public class Employee {
     private String id;
     private String name;
     private int age;
+    private String dayOfBirth;
     private String address;
     private int phoneNumber;
     private String email;
-    @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.PERSIST)
     private AppUser appUser;
     private Boolean deleted = Boolean.FALSE;
 
     public Employee() {
     }
 
-    public Employee(String id, String name, int age, String address, int phoneNumber, String email, AppUser appUser,
-                    Boolean deleted) {
+    public Employee(String id, String name, int age, String dayOfBirth, String address, int phoneNumber, String email, AppUser appUser, Boolean deleted) {
         this.id = id;
         this.name = name;
         this.age = age;
+        this.dayOfBirth = dayOfBirth;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.appUser = appUser;
         this.deleted = deleted;
+    }
+
+    public String getDayOfBirth() {
+        return dayOfBirth;
+    }
+
+    public void setDayOfBirth(String dayOfBirth) {
+        this.dayOfBirth = dayOfBirth;
     }
 
     public String getId() {

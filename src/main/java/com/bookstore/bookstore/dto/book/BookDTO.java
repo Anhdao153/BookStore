@@ -4,6 +4,7 @@ import com.bookstore.bookstore.model.orderDetail.OrderDetail;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -12,7 +13,7 @@ import java.util.List;
 public class BookDTO implements Validator {
 
     String id;
-    @NotNull(message="Tên sách không được để trống")
+    @NotNull(message = "Tên sách không được để trống")
     private String name;
     @NotNull(message = "Tác giả không được để trống")
     private String author;
@@ -28,11 +29,20 @@ public class BookDTO implements Validator {
     private double price;
     private List<OrderDetail> orderDetail;
 
+    private String url;
+
     public BookDTO() {
     }
 
-    public BookDTO(String id, String name, String author, LocalDate publication, String publishing_company,
-                   String translator, int quantity, double price, List<OrderDetail> orderDetail) {
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public BookDTO(String id, String name, String author, LocalDate publication, String publishing_company, String translator, int quantity, double price, List<OrderDetail> orderDetail, String url) {
         this.id = id;
         this.name = name;
         this.author = author;
@@ -42,6 +52,7 @@ public class BookDTO implements Validator {
         this.quantity = quantity;
         this.price = price;
         this.orderDetail = orderDetail;
+        this.url = url;
     }
 
     public String getId() {

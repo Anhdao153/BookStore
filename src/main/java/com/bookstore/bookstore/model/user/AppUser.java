@@ -1,6 +1,7 @@
 package com.bookstore.bookstore.model.user;
 
 import com.bookstore.bookstore.config.CustomId;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.SQLDelete;
@@ -27,20 +28,31 @@ public class AppUser {
     private String password;
     private Boolean isEnabled = Boolean.TRUE;
     private String verificationCode;
+    private Boolean deleted = Boolean.FALSE;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST,targetEntity = Role.class)
+    @ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class)
+    @JsonBackReference
     private Set<Role> roles;
 
     public AppUser() {
     }
 
-    public AppUser(String id, String account, String password, Boolean isEnabled, String verificationCode, Set<Role> roles) {
+    public AppUser(String id, String account, String password, Boolean isEnabled, String verificationCode, Boolean deleted, Set<Role> roles) {
         this.id = id;
         this.account = account;
         this.password = password;
         this.isEnabled = isEnabled;
         this.verificationCode = verificationCode;
+        this.deleted = deleted;
         this.roles = roles;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     public String getId() {
