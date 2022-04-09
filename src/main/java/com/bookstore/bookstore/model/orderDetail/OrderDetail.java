@@ -7,6 +7,8 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -22,17 +24,26 @@ public class OrderDetail {
     @ManyToOne(targetEntity = Order.class)
     @JsonBackReference
     private Order order;
-
+    private LocalDateTime payDay;
 
     public OrderDetail() {
     }
 
-    public OrderDetail(long id, int quantity, double price, Book book, Order order) {
+    public OrderDetail(long id, int quantity, double price, Book book, Order order, LocalDateTime payDay) {
         this.id = id;
         this.quantity = quantity;
         this.price = price;
         this.book = book;
         this.order = order;
+        this.payDay = payDay;
+    }
+
+    public LocalDateTime getPayDay() {
+        return payDay;
+    }
+
+    public void setPayDay(LocalDateTime payDay) {
+        this.payDay = payDay;
     }
 
     public long getId() {

@@ -5,69 +5,38 @@ import com.bookstore.bookstore.model.order.Order;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 public class OrderDetailDTO implements Validator {
-    private long id;
     @Min(1)
-    private int quantity;
+    private Integer quantity;
     @NotNull
-    private Book book;
-    private double price = book.getPrice()*quantity;
-    @NotNull
-    private Order order;
+    private String bookId;
 
     public OrderDetailDTO() {
     }
 
-    public OrderDetailDTO(long id, int quantity, Book book, double price, Order order) {
-        this.id = id;
+    public OrderDetailDTO(Integer quantity, String bookId) {
         this.quantity = quantity;
-        this.book = book;
-        this.price = price;
-        this.order = order;
+        this.bookId = bookId;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
-    public Book getBook() {
-        return book;
+    public String getBookId() {
+        return bookId;
     }
 
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
     }
 
     @Override

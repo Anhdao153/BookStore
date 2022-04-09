@@ -32,7 +32,9 @@ public class Customer {
     private int phoneNumber;
     private String email;
     @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.ALL)
+    @JsonBackReference
     private AppUser appUser;
+
     @OneToMany(mappedBy = "customer")
 //    ,fetch = FetchType.EAGER   //xài vào thì bị lỗi, k xài thì k bị lỗi
     @JsonBackReference

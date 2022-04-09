@@ -1,8 +1,9 @@
 package com.bookstore.bookstore.controller;
 
+import com.bookstore.bookstore.dto.oderDetail.ListOrder;
 import com.bookstore.bookstore.dto.oderDetail.OrderDetailDTO;
-import com.bookstore.bookstore.model.order.Order;
 import com.bookstore.bookstore.model.orderDetail.OrderDetail;
+import com.bookstore.bookstore.service.order.IOrderService;
 import com.bookstore.bookstore.service.orderDetail.IOrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,19 +24,24 @@ public class OrderDetailController {
     @Autowired
     IOrderDetailService iOrderDetailService;
 
-    // khi api add cuar order detail duoc goi thi no se link 2 doi duong book va customer - customer thi chi co 1
-// nhung book phair la 1 list.
-    //phair get 1 doi tuong voi list book
-    // Chỉ khi nào payment thành công thì mới update phướng thức này xuống phía DB
-    @PostMapping("/add")
-    public ResponseEntity<Object> createOrderDetail(@RequestBody @Valid OrderDetailDTO orderDetailDTO, BindingResult bindingResult) {
-        new OrderDetailDTO().validate(orderDetailDTO, bindingResult);
-       if (bindingResult.hasErrors()){
-           String mes="Ngu lắm thiện";
-           return new ResponseEntity<>(mes,HttpStatus.BAD_REQUEST);
-       }
-       iOrderDetailService.saveOrderDetail(orderDetailDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @Autowired
+    IOrderService iOrderService;
+
+    // Thêm hóa đơn cùng với thời gian thanh toán.
+    @PostMapping(value = "/add")
+    public ResponseEntity<Object> createOrderDetail(@RequestBody @Valid ListOrder orderDetailDTO, BindingResult bindingResult) {
+        new ListOrder().validate(orderDetailDTO,bindingResult);
+        if (bindingResult.hasErrors()) {
+            String mes = "Ngu lắm thiện";
+            System.out.println(mes);
+            return new ResponseEntity<>(mes, HttpStatus.BAD_REQUEST);
+        }
+        if (iOrderDetailService.saveOrderDetail(orderDetailDTO) == null) {
+            String mes = "Thêm mới thành công";
+            return new ResponseEntity<>(mes, HttpStatus.OK);
+        }
+        String mes = "Thêm mới thất bại, số lượng sách trong kho không đủ";
+        return new ResponseEntity<>(mes, HttpStatus.BAD_REQUEST);
     }
 
     // Có thể làm lịch sử giao dịch, cũng như làm chi tiết hóa đơn của từng khách hàng.
@@ -50,23 +56,36 @@ public class OrderDetailController {
         return new ResponseEntity<>(orderDetail, HttpStatus.OK);
     }
 
+    // Chi tiết từng sản phẩm mua
     @GetMapping("/id")
-    public ResponseEntity<Object> getOrderDetailById(@RequestParam("id") Long id){
-        Optional<OrderDetail> orderDetail= iOrderDetailService.findOrderDetailById(id);
+    public ResponseEntity<Object> getOrderDetailByOrderId(@RequestParam("id") Long id) {
+        Optional<OrderDetail> orderDetail = iOrderDetailService.findOrderDetailById(id);
         if (!orderDetail.isPresent()) {
             String mes = "Ngu lắm thiện";
-            return new ResponseEntity<>(mes, HttpStatus.OK);
+            return new ResponseEntity<>(mes, HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(orderDetail, HttpStatus.OK);
     }
-    @PatchMapping("/edit")
-    public ResponseEntity<Object> editOrderDetail(@RequestBody @Valid OrderDetailDTO orderDetailDTO, BindingResult bindingResult){
-        new OrderDetailDTO().validate(orderDetailDTO, bindingResult);
-        if (bindingResult.hasErrors()){
-            String mes="Ngu lắm thiện";
-            return new ResponseEntity<>(mes,HttpStatus.BAD_REQUEST);
+
+    //Danh sách toàn bộ hóa đơn của 1 khách hàng.
+    @GetMapping("/orderList")
+    public ResponseEntity<Object> getOrderDetailByCustomerId(@RequestParam("id") String id, @PageableDefault Pageable pageable) {
+        Page<OrderDetail> orderDetail = iOrderDetailService.findOrderDetailByCustomerId(id, pageable);
+        if (orderDetail.isEmpty()) {
+            String mes = "Ngu lắm thiện";
+            return new ResponseEntity<>(mes, HttpStatus.NO_CONTENT);
         }
-        OrderDetail orderDetail=iOrderDetailService.saveOrderDetail(orderDetailDTO);
+        return new ResponseEntity<>(orderDetail, HttpStatus.OK);
+    }
+
+    //Danh sách toàn bộ hóa đơn của tất cả khách hàng.
+    @GetMapping("/getAll")
+    public ResponseEntity<Object> getAllOrderDetail(@PageableDefault Pageable pageable) {
+        Page<OrderDetail> orderDetail = iOrderDetailService.findAllOrderDetail(pageable);
+        if (orderDetail.isEmpty()) {
+            String mes = "Ngu lắm thiện";
+            return new ResponseEntity<>(mes, HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity<>(orderDetail, HttpStatus.OK);
     }
 }
