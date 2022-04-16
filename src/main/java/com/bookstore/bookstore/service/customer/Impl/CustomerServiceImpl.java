@@ -1,18 +1,18 @@
 package com.bookstore.bookstore.service.customer.Impl;
 
 import com.bookstore.bookstore.dto.customer.CustomerDTO;
-import com.bookstore.bookstore.dto.customer.ICustomerDTO;
+import com.bookstore.bookstore.dto.customer.EmailCustomerDTO;
+import com.bookstore.bookstore.dto.customer.ICustomer;
 import com.bookstore.bookstore.model.customer.Customer;
 import com.bookstore.bookstore.repository.customer.ICustomerRepo;
 import com.bookstore.bookstore.service.customer.ICustomerService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,5 +42,10 @@ public class CustomerServiceImpl implements ICustomerService {
     @Override
     public void deletedCustomer(String id) {
         iCustomerRepo.deleteCustomerById(id);
+    }
+
+    @Override
+    public List<ICustomer> getListCustomerMail() {
+        return iCustomerRepo.customerSendMail();
     }
 }

@@ -1,7 +1,8 @@
 package com.bookstore.bookstore.service.customer;
 
 import com.bookstore.bookstore.dto.customer.CustomerDTO;
-import com.bookstore.bookstore.dto.customer.ICustomerDTO;
+import com.bookstore.bookstore.dto.customer.EmailCustomerDTO;
+import com.bookstore.bookstore.dto.customer.ICustomer;
 import com.bookstore.bookstore.model.customer.Customer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,4 +17,6 @@ public interface ICustomerService {
     Page<Customer> showListCustomer(String keyWord, Pageable pageable);
 
     void deletedCustomer(String id);
+
+    List<ICustomer> getListCustomerMail();
 }

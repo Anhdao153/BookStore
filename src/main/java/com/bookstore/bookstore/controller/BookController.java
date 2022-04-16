@@ -5,10 +5,7 @@ import com.bookstore.bookstore.model.book.Book;
 import com.bookstore.bookstore.service.book.IBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -30,12 +26,7 @@ public class BookController {
     @GetMapping("/search")
     public ResponseEntity<Page<Book>> search(@RequestParam("keyWord") String keyword,
                                              @PageableDefault(value = 9) Pageable pageable) {
-//        Pageable pageable = PageRequest.of(page, 9);
-//        List<Book> bookPageable = iBookService.searchBook(keyword, page);
         Page<Book> bookPageable = iBookService.searchBookWithPage(keyword, pageable);
-
-//        Page<Book> books = new PageImpl<>(bookPageable, pageable, bookPageable.size());
-
         if (bookPageable.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

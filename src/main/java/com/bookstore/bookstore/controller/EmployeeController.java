@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Optional;
 
+@CrossOrigin(value = "http://localhost:4200/", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/employee")
 public class EmployeeController {

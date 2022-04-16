@@ -31,7 +31,7 @@ public class Customer {
     private String address;
     private int phoneNumber;
     private String email;
-    @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = AppUser.class, cascade = CascadeType.PERSIST)
     @JsonBackReference
     private AppUser appUser;
 
